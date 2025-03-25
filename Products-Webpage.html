@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Products | Verteco</title>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="style3.css">
+	<script>
+		function myFunction() {
+			var input, filter, ul, li, a, i, txtValue;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			ul = document.getElementById("myUL");
+			li = ul.getElementsByTagName("li");
+			for (i = 0; i < li.length; i++) {
+				a = li[i].getElementsByTagName("a")[0];
+				txtValue = a.textContent || a.innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					li[i].style.display = "";
+				} else {
+					li[i].style.display = "none";
+				}
+			}
+		}
+		
+		let cart = [];
+
+		function addToCart(name, price) {
+			const item = cart.find(product => product.name === name);
+			if (item) {
+				item.quantity++;
+			} else {
+				cart.push({ name, price, quantity: 1 });
+			}
+			updateCart();
+		}
+		
+		function removeFromCart(name) {
+			cart = cart.filter(product => product.name !== name);
+			updateCart();
+		}
+		
+		function updateCart() {
+			const cartItems = document.getElementById('cart-items');
+			const cartTotal = document.getElementById('cart-total');
+			cartItems.innerHTML = '';
+			let total = 0;
+			cart.forEach(product => {
+				const li = document.createElement('li');
+				li.textContent = `${product.name} - $${product.price} x ${product.quantity}`;
+				const removeButton = document.createElement('button');
+				removeButton.textContent = 'Remove';
+				removeButton.onclick = () => removeFromCart(product.name);
+				li.appendChild(removeButton);
+				cartItems.appendChild(li);
+				total += product.price * product.quantity;
+			});
+			cartTotal.textContent = total;
+		}
+		const paymentRequest = new PaymentRequest(
+		[
+			{
+			supportedMethods: 'basic-card',
+			data: {
+				supportedNetworks: ['visa', 'mastercard'],
+			},
+			},
+		],
+		{
+			total: {
+			label: 'Total',
+			amount: { currency: 'USD', value: '10.00' },
+			},
+		}
+		);
+		paymentRequest.show().then((paymentResponse) => {
+		// Process the payment
+		console.log(paymentResponse);
+		
+		// Complete the payment
+		paymentResponse.complete('success').then(() => {
+			console.log('Payment completed successfully');
+		});
+		}).catch((error) => {
+		console.error('Payment failed', error);
+		});
+	</script>
+</head>
+<body>
+	<h1 style="text-align: center;"><b>VertEco Farming</b></h1>
+	<div class="topnav">
+		<a href="/main-webpage.html">Home</a>
+		<a href="/AboutUs-Webpage.html">About Us</a>
+		<a href="/products-webpage.html" class="active">Products</a>
+		<a href="/Tutorials-Webpage.html">Tutorial</a>
+		<a href="#contact">Contact us</a>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3 border-end">
+				<p></p>
+				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Products..." title="Type something">
+				<ul id="myUL">
+					<li><a href="#Cherry Tomatoes">Cherry Tomatoes</a></li>
+					<li><a href="#Fenugreek">Fenugreek</a></li>
+					<li><a href="#Butterfly Peaflowers">Butterfly Peaflowers</a></li>
+					
+					<li><a href="#lettuce">Lettuce</a></li>
+					<li><a href="#kale">Kale</a></li>
+					<li><a href="#Cabbage">Cabbage</a></li>
+					
+					<li><a href="#basil">Basil</a></li>
+					<li><a href="#mint">Mint</a></li>
+					<li><a href="#Strawberries">Strawberries</a></li>
+				</ul>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<p class="nan">&nbsp;</p>
+				<div class="cart">
+					<h2>Shopping Cart</h2>
+					<ul id="cart-items" ></ul>
+					<p>Total: $<span id="cart-total">0</span></p>
+				</div>
+			</div>
+			<div class="col border-end"><h1>Our Products.</h2>
+			<div class="flex-container">
+				<div class="card" id="Cherry Tomatoes">
+					<img src="https://imgs.search.brave.com/uGwv-PiyQd9jbVf_fQPFU3o8XDqcz2gDF0pN23M5FNQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTcw/MTA3NTM3L3Bob3Rv/L2NoZXJyeS10b21h/dG9lcy5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9TF85THVV/Z3Y5a3BQbGpXTmR0/d2lyQm9mN0ctWUV2/bDBhNUw5TEJ5dk42/ND0" alt="cherry tomatoes" width="300" height="300">
+					<h2>Cherry Tomatoes</h2>
+					<p class="price">$3 (QTY- 1 pound)</p>
+					<button onclick="addToCart('Cherry Tomatoes', 3)">Add to Cart</button>
+				</div>
+				<div class="card" id="Fenugreek">
+					<img src="https://imgs.search.brave.com/0yVj_EAUiFNklYxCr4TceBAyIU-xjqi0_vppJcYHzNY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTU3/NDI1MjUzL3Bob3Rv/L2ZlbnVncmVlay5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/cmRMaG82bWltMzIw/dGxIUkVFVzdFYngw/Wi04TFZ4eHZRWW5f/SFlUOG1QOD0" alt="fenugreek" width="300" height="300">
+					<h2>Fenugreek</h2>
+					<p class="price">$4 (QTY- 1 pound)</p>
+					<p id="Fenu"><button onclick="addToCart('Fenugreek, 4'">Add to Cart</button></p>
+				</div>
+				<div class="card" id="Butterfly Peaflowers">
+					<img src="https://praneesthaikitchen.com/wp-content/uploads/2012/03/img_0257_2.jpg" alt="butterfly peaflowers" width="300" height="300">
+					<h2>Butterfly Peaflowers</h2>
+					<p class="price">$4 (QTY- 5 flowers)</p>
+					<button onclick="addToCart('Butterfly Peaflowers', 4)">Add to Cart</button>
+				</div>
+			</div>
+			<div class="flex-container">
+				<div class="card" id="lettuce">
+					<img src="https://healthjade.com/wp-content/uploads/2017/11/romaine-lettuce.jpg" alt="lettuce" width="300" height="300">
+					<h2>Lettuce</h2>
+					<p class="price">$5 (QTY- 1 pound)</p>
+					<button onclick="addToCart('lettuce', 5)">Add to Cart</button>
+				</div>
+				<div class="card" id="kale">
+					<img src="https://static01.nyt.com/images/2022/04/03/realestate/30garden01/oakImage-1648581741695-mediumSquareAt3X.jpg" alt="kale" width="300" height="300">
+					<h2>Kale</h2>
+					<p class="price">$3 (QTY- 1 pound)</p>
+					<button onclick="addToCart('kale', 3)">Add to Cart</button>
+				</div>
+				<div class="card" id="Cabbage">
+					<img src="https://en.bcdn.biz/Images/2017/7/14/ed69ca2d-b7a2-411a-9e80-5465c6190e21.jpg" alt="Cabbage" width="300" height="300">
+					<h2>Cabbage</h2>
+					<p class="price">$2 (QTY- 1 pound)</p>
+					<button onclick="addToCart('Cabbage', 2)">Add to Cart</button>
+				</div>
+			</div>
+			<div class="flex-container">
+				<div class="card" id="basil">
+					<img src="https://www.veggycation.com.au/siteassets/veggycationvegetable/basil.jpg" alt="basil" width="300" height="300">
+					<h2>basil</h2>
+					<p class="price">$2 (QTY- 1 pound)</p>
+					<button onclick="addToCart('basil', 2)">Add to Cart</button>
+				</div>
+				<div class="card" id="mint">
+					<img src="https://gardenguru.in/cdn/shop/products/191.jpg?v=1629233358" alt="mint" width="300" height="300">
+					<h2>mint</h2>
+					<p class="price">$5 (QTY- 1 pound)</p>
+					<button onclick="addToCart('mint', 5)">Add to Cart</button>
+				</div>
+				<div class="card" id="Strawberries">
+					<img src="https://happyforks.com/static/foto/prod/l/115.jpg" alt="strawberries" width="300" height="300">
+					<h2>strawberries</h2>
+					<p class="price">$3 (QTY- 1 pound)</p>
+					<button onclick="addToCart('Strawberries', 3)">Add to Cart</button>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
